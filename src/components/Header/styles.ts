@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
   background: ${(props) => props.theme["gray-900"]};
-  padding: 2.5rem 0.7rem;
+  padding: 4.5rem 0.7rem;
 `;
 
 export const HeaderContent = styled.div`
@@ -16,19 +16,17 @@ export const HeaderContent = styled.div`
   align-items: center;
 `;
 
+export const NewTransactionButton = styled.button`
+  height: 50px;
+  border: 0;
+  background: ${(props) => props.theme["green-500"]};
+  font-weight: bold;
+  padding: 0 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
 
-export const  NewTrasactionButton = styled.button`
- height:50px;
- border: 0;
- background:${props => props.theme["green-500"]};
- font-weight:bold;
- padding: 0 1.25rem;
- border-radius:6px;
- cursor:pointer;
-  transition:background-color 0.2s;
-
- &:hover {
-    background:  ${props => props.theme["green-700"]};
-
- }
+  &:hover {
+    background: ${(props) => props.theme["green-700"]};
+    transition: background-color 0.2s ease;
+  }
 `;
