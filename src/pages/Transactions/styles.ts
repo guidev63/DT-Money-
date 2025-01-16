@@ -43,6 +43,6 @@ export const PriceHighlight = styled.span<PriceHighlightProps>`
 export const SearchFormContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%; /* Garante que o formulário e a tabela compartilhem a mesma largura */
-  margin-bottom: 1rem; /* Espaço entre o form e a tabela */
+  width: 100%; 
+  margin-bottom: 1rem;
 `;
