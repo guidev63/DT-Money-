@@ -10,14 +10,7 @@ import {
 
 
 
-interface Transactions{
-id:number;
-description:string;
-type:'income' | 'outcome';
-price:number;
-category:string;
-createdAt:string;
-}
+
 export function Transactions() {
 
   const [transactions,setTransactions] = useState<Transactions[]>([])
@@ -52,8 +45,6 @@ export function Transactions() {
                 <td>{transaction.category}</td>
                 <td>{transaction.createdAt}</td>
               </tr>
-
-
               )
             })}
           </tbody>
