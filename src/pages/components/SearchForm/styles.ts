@@ -12,7 +12,7 @@ export const SearchFormContainer = styled.form`
     color: ${(props) => props.theme["gray-300"]};
     padding: 1rem;
 
-    ::placeholder {  /* Corrigido aqui */
+    ::placeholder {  
       color: ${(props) => props.theme["gray-500"]};
     }
   }
@@ -35,9 +35,9 @@ export const SearchFormContainer = styled.form`
       cursor: not-allowed;
     }
 
-    &:not(:disabled):hover {  /* Corrigido aqui */
+    &:not(:disabled):hover {  
       background: ${(props) => props.theme["green-500"]};
-      border-color: ${(props) => props.theme["green-500"]};  /* Corrigido aqui */
+      border-color: ${(props) => props.theme["green-500"]}; 
       color: ${(props) => props.theme.white};
       transition: background-color 0.2s, color 0.2s, border-color 0.2s;
     }
