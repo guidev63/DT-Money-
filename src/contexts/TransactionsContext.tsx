@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { api } from "../lib/axios";
 
 interface Transactions {
   id: number;
@@ -24,25 +25,25 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
 
   async function fetchTransactions(query?: string) {
-    const url = new URL('http://localhost:3333/transactions');
-    
-    const response = await fetch(url);
-    const data: Transactions[] = await response.json();
+    const response = await api.get("/transactions", {
+      params: {
+        q: query,
+      },
+    });
 
     // Se houver um termo de pesquisa, filtra os resultados pelo nome
     const filteredData = query
-        ? data.filter(transaction => 
-            transaction.description.toLowerCase().includes(query.toLowerCase())
+      ? response.data.filter((transaction: Transactions) =>
+          transaction.description.toLowerCase().includes(query.toLowerCase())
         )
-        : data;
+      : response.data;
 
     setTransactions(filteredData);
-}
-
+  }
 
   useEffect(() => {
     fetchTransactions();
-  }, []); // `fetchTransactions` nunca muda, então não precisa colocá-la nas dependências
+  }, []);
 
   return (
     <TransactionsContext.Provider value={{ transactions, fetchTransactions }}>
