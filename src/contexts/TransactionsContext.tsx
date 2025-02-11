@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {ReactNode, useEffect, useState } from "react";
 import { api } from "../lib/axios";
+import { createContext } from "use-context-selector";
 
 interface Transactions {
   id: number;
@@ -13,10 +14,17 @@ interface Transactions {
 interface TransactionContextType {
   transactions: Transactions[];
   fetchTransactions: (query?: string) => Promise<void>;
+  createTransaction:(data:createTransactionInput) => Promise<void>;
 }
 
 interface TransactionsProviderProps {
   children: ReactNode;
+}
+interface createTransactionInput{
+  description:string;
+  price:number;
+  category:string;
+  type:'income' | 'outcome';
 }
 
 export const TransactionsContext = createContext({} as TransactionContextType);
@@ -27,11 +35,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   async function fetchTransactions(query?: string) {
     const response = await api.get("/transactions", {
       params: {
+        _sort:'createdAt',
+        _oder:'decre',
         q: query,
       },
     });
-
-    // Se houver um termo de pesquisa, filtra os resultados pelo nome
+  
+   
     const filteredData = query
       ? response.data.filter((transaction: Transactions) =>
           transaction.description.toLowerCase().includes(query.toLowerCase())
@@ -40,13 +50,29 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
     setTransactions(filteredData);
   }
+ async   function createTransaction(data:createTransactionInput){
+  const { description, category, price, type } = data;
 
-  useEffect(() => {
+    const response = await api.post('/transactions', {
+        description,
+        category,
+        price,
+        type,
+        createdAt: new Date(),
+      });
+
+        setTransactions( state =>[response.data,...state, ]);
+    }
+
+   useEffect(() => {
     fetchTransactions();
   }, []);
 
   return (
-    <TransactionsContext.Provider value={{ transactions, fetchTransactions }}>
+    <TransactionsContext.Provider value={{
+       transactions, 
+       fetchTransactions,
+       createTransaction }}>
       {children}
     </TransactionsContext.Provider>
   );
